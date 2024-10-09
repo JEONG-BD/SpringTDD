@@ -3,6 +3,8 @@ package com.example.sec01;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -79,5 +81,31 @@ public class DemoUtilsTests {
         assertTrue(demoUtils.isGreater(gradeOne, gradeTwo), "This should return true");
         assertFalse(demoUtils.isGreater(gradeTwo, gradeOne), "This should return false");
         //then
+    }
+
+    @Test
+    public void testArrayEquals() throws Exception{
+        //given
+        String [] testArray = {"A", "B", "C"};
+        assertArrayEquals(testArray, demoUtils.getFirstThreeLettersOfAlphabet(), "Array should be the same");
+        //when
+
+        //then
+    }
+
+    @Test
+    public void testIterableEquals() throws Exception{
+        //given
+        List<String> testList = List.of("tdd", "spring", "code");
+        //when
+        assertIterableEquals(testList, demoUtils.getAcademyInList(), "Expected list should be same as actual list");
+        //then
+    }
+
+    @Test
+    public void testLineMatch() throws Exception{
+        List<String> testList = List.of("tdd", "spring", "code");
+        assertLinesMatch(testList, demoUtils.getAcademyInList(), "Line should match");
+
     }
 }

@@ -2,13 +2,16 @@ package com.example.sec01;
 
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class DemoUtils {
 
     private static DemoUtils instance = new DemoUtils();
     private String academy = "tdd Academy";
     private String academyDuplicate = academy;
-
+    private String[] firstThreeLettersOfAlphabet = {"A", "B", "C"};
+    private List<String> academyInList = List.of("tdd", "spring", "code");
     private DemoUtils() {
 
     }
@@ -34,6 +37,7 @@ public class DemoUtils {
         }
         return false;
     }
+
 
 
 }
