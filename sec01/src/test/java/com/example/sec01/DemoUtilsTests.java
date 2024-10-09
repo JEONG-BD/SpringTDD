@@ -6,6 +6,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+//@DisplayNameGeneration(DisplayNameGenerator.Simple.class)
+@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
+
 public class DemoUtilsTests {
 
     /*DemoUtils demoUtils ;*/
@@ -33,6 +36,7 @@ public class DemoUtilsTests {
     }
 
     @Test
+    //@DisplayName("Equals and Not Equals")
     public void testEqualsAndNotEquals() throws Exception{
         //DemoUtils demoUtils = new DemoUtils();
         assertEquals(6, demoUtils.add(2, 4), "2 + 5 must be 6");
@@ -41,6 +45,7 @@ public class DemoUtilsTests {
     }
 
     @Test
+    //@DisplayName("Null and Not Null")
     public void testNullAndNotNull() throws Exception{
         //DemoUtils demoUtils = new DemoUtils();
         String str1 = null;
