@@ -3,6 +3,7 @@ package com.example.sec01;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -115,6 +116,16 @@ public class DemoUtilsTests {
         assertThrows(Exception.class, () -> {demoUtils.throwException(-1);}, "Should throw exception");
         //when
         assertDoesNotThrow(() -> {demoUtils.throwException(9);},"Should not throw exception");
+        //then
+    }
+
+    @Test
+    public void testTimeout() throws Exception{
+        //given
+        assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {demoUtils.checkTimeout();},
+                "Method should execute 3 seconds");
+        //when
+
         //then
     }
 

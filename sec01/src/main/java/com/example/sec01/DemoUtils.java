@@ -45,6 +45,10 @@ public class DemoUtils {
         return "Value is greater than or equal to 0";
     }
 
-
+    public void checkTimeout() throws InterruptedException{
+        System.out.println("I am going to sleep");
+        Thread.sleep(2000);
+        System.out.println("Sleep Over");
+    }
 
 }
