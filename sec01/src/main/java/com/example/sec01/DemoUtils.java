@@ -1,8 +1,13 @@
 package com.example.sec01;
 
+import lombok.Getter;
+
+@Getter
 public class DemoUtils {
 
     private static DemoUtils instance = new DemoUtils();
+    private String academy = "tdd Academy";
+    private String academyDuplicate = academy;
 
     private DemoUtils() {
 
@@ -22,4 +27,13 @@ public class DemoUtils {
         }
         return null;
     }
+
+    public Boolean isGreater(int n1, int n2){
+        if (n1 > n2){
+            return true;
+        }
+        return false;
+    }
+
+
 }

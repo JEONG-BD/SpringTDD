@@ -56,4 +56,28 @@ public class DemoUtilsTests {
         System.out.println("Running testNullAndNotNull");
 
     }
+
+
+    @Test
+    @DisplayName("Same and Not Same")
+    public void testSameAndNotSame() throws Exception{
+        //given
+         String str = "tdd";
+         assertSame(demoUtils.getAcademy(), demoUtils.getAcademyDuplicate(), "Object should refer to same object");
+         assertNotSame(str, demoUtils.getAcademy(), "Object should not refer to same object");
+         //when
+
+        //then
+    }
+
+    @Test
+    public void testTrueAndFalse() throws Exception{
+        //given
+         int gradeOne = 30;
+         int gradeTwo = 5;
+        //when
+        assertTrue(demoUtils.isGreater(gradeOne, gradeTwo), "This should return true");
+        assertFalse(demoUtils.isGreater(gradeTwo, gradeOne), "This should return false");
+        //then
+    }
 }
