@@ -108,4 +108,15 @@ public class DemoUtilsTests {
         assertLinesMatch(testList, demoUtils.getAcademyInList(), "Line should match");
 
     }
+
+    @Test
+    public void testThrowAndDoesNotThrow() throws Exception{
+        //given
+        assertThrows(Exception.class, () -> {demoUtils.throwException(-1);}, "Should throw exception");
+        //when
+        assertDoesNotThrow(() -> {demoUtils.throwException(9);},"Should not throw exception");
+        //then
+    }
+
+
 }

@@ -38,6 +38,13 @@ public class DemoUtils {
         return false;
     }
 
+    public String throwException(int a) throws Exception {
+        if (a < 0){
+            throw new Exception("Value should be greater than or equal to 0");
+        }
+        return "Value is greater than or equal to 0";
+    }
+
 
 
 }
