@@ -9,9 +9,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-//@DisplayNameGeneration(DisplayNameGenerator.Simple.class)
-@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
-
+@DisplayNameGeneration(DisplayNameGenerator.Simple.class)
+//@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
+//@TestMethodOrder(MethodOrderer.MethodName.class)
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class DemoUtilsTests {
 
     /*DemoUtils demoUtils ;*/
@@ -32,13 +33,13 @@ public class DemoUtilsTests {
         System.out.println("@BeforeAll");
     }
 
-
     @AfterAll
     static void tearDownAfterAll(){
         System.out.println("@AfterAll");
     }
 
     @Test
+    @Order(1)
     //@DisplayName("Equals and Not Equals")
     public void testEqualsAndNotEquals() throws Exception{
         //DemoUtils demoUtils = new DemoUtils();
@@ -48,6 +49,7 @@ public class DemoUtilsTests {
     }
 
     @Test
+    @Order(2)
     //@DisplayName("Null and Not Null")
     public void testNullAndNotNull() throws Exception{
         //DemoUtils demoUtils = new DemoUtils();
@@ -57,12 +59,11 @@ public class DemoUtilsTests {
         assertNull(demoUtils.checkNull(str1), "Object should be Null");
         assertNotNull(demoUtils.checkNull(str2), "Object should be Null");
         System.out.println("Running testNullAndNotNull");
-
     }
 
-
     @Test
-    @DisplayName("Same and Not Same")
+    @Order(3)
+    //@DisplayName("Same and Not Same")
     public void testSameAndNotSame() throws Exception{
         //given
          String str = "tdd";
@@ -74,6 +75,7 @@ public class DemoUtilsTests {
     }
 
     @Test
+    @Order(4)
     public void testTrueAndFalse() throws Exception{
         //given
          int gradeOne = 30;
@@ -85,6 +87,7 @@ public class DemoUtilsTests {
     }
 
     @Test
+    @Order(5)
     public void testArrayEquals() throws Exception{
         //given
         String [] testArray = {"A", "B", "C"};
@@ -95,6 +98,7 @@ public class DemoUtilsTests {
     }
 
     @Test
+    @Order(6)
     public void testIterableEquals() throws Exception{
         //given
         List<String> testList = List.of("tdd", "spring", "code");
@@ -104,13 +108,14 @@ public class DemoUtilsTests {
     }
 
     @Test
+    @Order(7)
     public void testLineMatch() throws Exception{
         List<String> testList = List.of("tdd", "spring", "code");
         assertLinesMatch(testList, demoUtils.getAcademyInList(), "Line should match");
-
     }
 
     @Test
+    @Order(8)
     public void testThrowAndDoesNotThrow() throws Exception{
         //given
         assertThrows(Exception.class, () -> {demoUtils.throwException(-1);}, "Should throw exception");
@@ -120,14 +125,10 @@ public class DemoUtilsTests {
     }
 
     @Test
+    @Order(10)
     public void testTimeout() throws Exception{
         //given
         assertTimeoutPreemptively(Duration.ofSeconds(3), () -> {demoUtils.checkTimeout();},
                 "Method should execute 3 seconds");
-        //when
-
-        //then
     }
-
-
 }
