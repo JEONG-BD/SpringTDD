@@ -1,5 +1,7 @@
 package com.example.sec02.models;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -7,6 +9,8 @@ import java.math.RoundingMode;
 import java.util.List;
 
 @Component
+@Setter
+@Getter
 public class StudentGrades {
 
 
