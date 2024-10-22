@@ -4,6 +4,7 @@ import com.example.sec03.dao.ApplicationDao;
 import com.example.sec03.models.CollegeStudent;
 import com.example.sec03.models.StudentGrades;
 import com.example.sec03.service.ApplicationService;
+import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class MockAnnotationTests {
     ApplicationContext applicationContext;
 
     @Autowired
-    CollegeStudent collegeStudent;
+    CollegeStudent studentOne;
 
     @Autowired
     StudentGrades studentGrades;
@@ -28,5 +29,14 @@ public class MockAnnotationTests {
 
     @Mock
     ApplicationDao applicationDao;
+
+
+    @BeforeEach
+    public void beforeEach(){
+        studentOne.setFirstName("Spring");
+        studentOne.setLastName("Test Driven Development");
+        studentOne.setEmailAddress("SpringBoot@Test.com");
+        studentOne.setStudentGrades(studentGrades);
+    }
 
 }
