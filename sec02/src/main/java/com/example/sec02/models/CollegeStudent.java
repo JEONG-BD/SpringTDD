@@ -1,6 +1,5 @@
 package com.example.sec02.models;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -10,14 +9,14 @@ import org.springframework.stereotype.Component;
 @Setter
 @ToString
 @Component
-public class ColleageStudent implements Student{
+public class CollegeStudent implements Student{
 
     private String firstName;
     private String lastName;
     private String emailAddress;
     private StudentGrades studentGrades;
 
-    public ColleageStudent() {
+    public CollegeStudent() {
     }
 
     @Override

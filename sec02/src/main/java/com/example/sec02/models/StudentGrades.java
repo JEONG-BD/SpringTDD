@@ -49,4 +49,11 @@ public class StudentGrades {
         }
         return false;
     }
+
+    public Object checkNull(Object obj){
+        if (obj != null){
+            return obj;
+        }
+        return null;
+    }
 }
