@@ -15,13 +15,13 @@ import java.util.List;
 @ToString
 public class StudentGrades {
 
-    List<Double> methGradeResults;
+    List<Double> mathGradeResults;
 
     public StudentGrades() {
     }
 
     public StudentGrades(List<Double> methGradeResults) {
-        this.methGradeResults = methGradeResults;
+        this.mathGradeResults = mathGradeResults;
     }
 
     public double addGradeResultsForSingleClass(List<Double> grades) {
