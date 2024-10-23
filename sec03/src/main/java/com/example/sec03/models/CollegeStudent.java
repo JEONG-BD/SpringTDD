@@ -8,6 +8,8 @@ import lombok.ToString;
 @Getter
 @ToString
 public class CollegeStudent implements Student{
+
+    private int id;
     private String firstName;
 
     private String lastName;
@@ -34,5 +36,10 @@ public class CollegeStudent implements Student{
     @Override
     public String getFullName() {
         return getFirstName() + " " + getLastName();
+    }
+
+
+    private String getFirstNameAndId(){
+        return getFirstName() + " " + getId();
     }
 }

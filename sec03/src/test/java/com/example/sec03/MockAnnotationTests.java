@@ -16,7 +16,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static orgb.mockito.Mockito.*;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = Sec03Application.class)
 public class MockAnnotationTests {
