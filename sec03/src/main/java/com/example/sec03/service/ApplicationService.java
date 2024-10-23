@@ -9,9 +9,9 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-@NoArgsConstructor
 public class ApplicationService {
 
+    @Autowired
     private ApplicationDao applicationDao;
 
     public double addGradeResultsForSingleClass(List<Double> grades) {
