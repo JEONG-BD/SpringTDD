@@ -5,12 +5,18 @@ import lombok.*;
 
 @Entity
 @Table(name = "student")
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Setter
 @Getter
 @ToString
 public class CollegeStudent implements Student{
+    public CollegeStudent() {
+    }
+
+    public CollegeStudent(String firstName, String lastName, String emailAddress) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.emailAddress = emailAddress;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
