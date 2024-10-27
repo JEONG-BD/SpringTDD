@@ -1,4 +1,4 @@
-package com.example.sec04.models;
+package com.example.sec04.domain;
 
 
 public interface Student {
