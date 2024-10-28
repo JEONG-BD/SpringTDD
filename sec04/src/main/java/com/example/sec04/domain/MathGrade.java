@@ -26,6 +26,11 @@ public class MathGrade implements Grade{
     }
 
     @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
     public void setId() {
         this.id = id;
     }
@@ -50,4 +55,5 @@ public class MathGrade implements Grade{
     public double getGrade() {
         return grade;
     }
+
 }

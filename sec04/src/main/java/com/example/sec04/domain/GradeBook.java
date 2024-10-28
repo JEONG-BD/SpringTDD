@@ -10,12 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Component
-@NoArgsConstructor
-@RequiredArgsConstructor
 @Setter
 @Getter
 public class GradeBook {
 
     private List<GradeBookCollegesStudent> student = new ArrayList<>();
 
+    public GradeBook() {
+
+    }
+
+    public GradeBook(List<GradeBookCollegesStudent> student) {
+        this.student = student;
+    }
 }

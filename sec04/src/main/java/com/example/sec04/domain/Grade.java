@@ -4,6 +4,8 @@ public interface Grade {
 
     double getGrade();
 
+    int getId();
+
     void setId();
 
     int getStudentId();

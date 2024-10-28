@@ -27,6 +27,10 @@ public class HistoryGrade implements Grade{
     }
 
     @Override
+    public int getId() {
+        return 0;
+    }
+    @Override
     public void setId() {
         this.id = id;
     }
@@ -51,4 +55,5 @@ public class HistoryGrade implements Grade{
     public double getGrade() {
         return grade;
     }
+
 }
