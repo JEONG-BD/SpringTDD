@@ -11,7 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 @TestPropertySource("/application.properties")
@@ -52,6 +57,34 @@ public class StudentAndGradeServiceTests {
         //then
         Assertions.assertTrue(studentService.checkIfStudentIsNull(1));
         Assertions.assertFalse(studentService.checkIfStudentIsNull(0));
+    }
+
+    @Test
+    public void deleteStudentService() throws Exception{
+        //given
+        Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
+        Assertions.assertTrue(deletedCollegeStudent.isPresent(), "Return True");
+        //when
+        studentService.deleteStudent(1);
+        deletedCollegeStudent = studentDao.findById(1);
+        //then
+        Assertions.assertFalse(deletedCollegeStudent.isPresent(), "Return False");
+    }
+
+    @Sql("/insertData.sql")
+    @Test
+    public void getGradeBookService() throws Exception{
+        //given
+        Iterable<CollegeStudent> iterableCollegeStudents = studentService.getGradeBook();
+
+        //when
+        List<CollegeStudent> collegeStudents = new ArrayList<>();
+        //then
+        for (CollegeStudent collegeStudent : iterableCollegeStudents) {
+            collegeStudents.add(collegeStudent);
+        }
+
+        Assertions.assertEquals(5, collegeStudents.size());
     }
 
     @AfterEach
