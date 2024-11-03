@@ -127,7 +127,21 @@ public class GradeBookControllerTests {
 
         Assertions.assertFalse(studentDao.findById(1).isPresent());
 
+    }
 
+    @Test
+    public void deleteStudentHttpRequestErrorPage() throws Exception{
+        //given
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
+                .get("/delete/student/{id}", 0))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+
+        //when
+
+        //then
     }
     @AfterEach
     public void afterEach(){
