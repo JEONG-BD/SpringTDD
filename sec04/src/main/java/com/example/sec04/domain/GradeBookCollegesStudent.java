@@ -6,6 +6,10 @@ public class GradeBookCollegesStudent extends CollegeStudent {
 
     private StudentGrades studentGrades;
 
+    public GradeBookCollegesStudent(String firstName, String lastName, String emailAddress) {
+        super(firstName, lastName, emailAddress);
+    }
+
     public GradeBookCollegesStudent(String firstName, String lastName, String emailAddress, StudentGrades studentGrades) {
         super(firstName, lastName, emailAddress);
         this.studentGrades = studentGrades;
