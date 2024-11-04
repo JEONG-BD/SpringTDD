@@ -21,6 +21,7 @@ import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -123,9 +124,12 @@ public class StudentAndGradeServiceTests {
         Iterable<HistoryGrade> historyGrades = historyGradesDao.findGradeByStudentId(1);
 
         //when
-        Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
-        Assertions.assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
-        Assertions.assertTrue(historyGrades.iterator().hasNext(), "Student has history grades");
+        //Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
+        Assertions.assertTrue(((Collection<MathGrade>)mathGrades).size()==2, "Student has math grades" );
+        //Assertions.assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
+        Assertions.assertTrue(((Collection<ScienceGrade>)scienceGrades).size()==2, "Student has science grades");
+        //Assertions.assertTrue(historyGrades.iterator().hasNext(), "Student has history grades");
+        Assertions.assertTrue(((Collection<HistoryGrade>)historyGrades).size()==2, "Student has history grades" );
 
         //then
     }
@@ -142,6 +146,31 @@ public class StudentAndGradeServiceTests {
 
         //then
     }
+
+    @Test
+    public void deleteGradeServiceTest() throws Exception{
+        //given
+        Assertions.assertEquals(1, studentService.deleteGrade(1, "math"),
+                "Return student id after delete");
+        //when
+        Assertions.assertEquals(1, studentService.deleteGrade(1, "science"),
+                "Return student id after delete");
+
+        Assertions.assertEquals(1, studentService.deleteGrade(1, "history"),
+                "Return student id after delete");
+        //then
+    }
+
+    @Test
+    public void deleteGradeServiceReturnFailTest() throws Exception{
+        //given
+        Assertions.assertEquals(0, studentService.deleteGrade(0, "science"), "No Student should have 0 id");
+        Assertions.assertEquals(0, studentService.deleteGrade(0, "literature"),"No Student should have 0 id");
+        //when
+
+        //then
+    }
+
     @AfterEach
     public void setUpAfterTransaction() {
         jdbcTemplate.execute("DELETE FROM student");
