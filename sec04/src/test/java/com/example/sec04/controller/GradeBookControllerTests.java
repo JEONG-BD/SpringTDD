@@ -2,6 +2,7 @@ package com.example.sec04.controller;
 
 import com.example.sec04.domain.CollegeStudent;
 import com.example.sec04.domain.GradeBookCollegesStudent;
+import com.example.sec04.domain.MathGrade;
 import com.example.sec04.repository.StudentDao;
 import com.example.sec04.service.StudentAndGradeService;
 import org.junit.jupiter.api.*;
@@ -143,6 +144,19 @@ public class GradeBookControllerTests {
 
         //then
     }
+    @Test
+    public void createGradeServiceTest() throws Exception{
+        //given
+
+        Assertions.assertTrue(studentAndGradeService.createGrade(80.50, 1, "math"));
+
+        Iterable<MathGrade> mathGrades = mathGradeDao.findGradeByStudentId(1);
+        //when
+        Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
+
+        //then
+    }
+
     @AfterEach
     public void afterEach(){
         jdbcTemplate.execute("DELETE FROM student");
