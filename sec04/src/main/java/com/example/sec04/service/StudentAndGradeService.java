@@ -1,8 +1,10 @@
 package com.example.sec04.service;
 
 import com.example.sec04.domain.CollegeStudent;
+import com.example.sec04.domain.HistoryGrade;
 import com.example.sec04.domain.MathGrade;
 import com.example.sec04.domain.ScienceGrade;
+import com.example.sec04.repository.HistoryGradesDao;
 import com.example.sec04.repository.MathGradesDao;
 import com.example.sec04.repository.ScienceGradesDao;
 import com.example.sec04.repository.StudentDao;
@@ -31,12 +33,20 @@ public class StudentAndGradeService {
     private ScienceGrade scienceGrade;
 
     @Autowired
-    private MathGradesDao mathGradesDao;
+    @Qualifier("historyGrades")
+    private HistoryGrade historyGrade;
 
+
+    @Autowired
+    private MathGradesDao mathGradesDao;
 
 
     @Autowired
     private ScienceGradesDao scienceGradesDao;
+
+
+    @Autowired
+    private HistoryGradesDao historyGradesDao;
 
 
     public void createStudent(String firstName, String lastName, String emailAddress){
@@ -89,6 +99,15 @@ public class StudentAndGradeService {
                 scienceGradesDao.save(scienceGrade);
                 return true;
             }
+
+            if (gradeTye.equals("history")) {
+                historyGrade.setId(0);
+                historyGrade.setGrade(grade);
+                historyGrade.setStudentId(studentId);
+                historyGradesDao.save(historyGrade);
+                return true;
+            }
+
         }
 
         return false;

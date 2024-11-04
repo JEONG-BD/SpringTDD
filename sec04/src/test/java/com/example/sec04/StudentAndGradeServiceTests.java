@@ -1,8 +1,10 @@
 package com.example.sec04;
 
 import com.example.sec04.domain.CollegeStudent;
+import com.example.sec04.domain.HistoryGrade;
 import com.example.sec04.domain.MathGrade;
 import com.example.sec04.domain.ScienceGrade;
+import com.example.sec04.repository.HistoryGradesDao;
 import com.example.sec04.repository.MathGradesDao;
 import com.example.sec04.repository.ScienceGradesDao;
 import com.example.sec04.repository.StudentDao;
@@ -37,9 +39,12 @@ public class StudentAndGradeServiceTests {
     @Autowired
     private MathGradesDao mathGradesDao;
 
-
     @Autowired
     private ScienceGradesDao scienceGradesDao;
+
+    @Autowired
+    private HistoryGradesDao historyGradesDao;
+
 
     @BeforeEach
     public void setUpDatabase(){
@@ -102,16 +107,19 @@ public class StudentAndGradeServiceTests {
     @Test
     public void createGradeServiceTest() throws Exception{
         //given
-
         Assertions.assertTrue(studentService.createGrade(80.50, 1, "math"));
         Assertions.assertTrue(studentService.createGrade(80.50, 1, "science"));
+        Assertions.assertTrue(studentService.createGrade(80.50, 1, "history"));
 
         Iterable<MathGrade> mathGrades = mathGradesDao.findGradeByStudentId(1);
         Iterable<ScienceGrade> scienceGrades = scienceGradesDao.findGradeByStudentId(1);
+        Iterable<HistoryGrade> historyGrades = historyGradesDao.findGradeByStudentId(1);
 
         //when
         Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
         Assertions.assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
+        Assertions.assertTrue(historyGrades.iterator().hasNext(), "Student has history grades");
+
         //then
     }
 
