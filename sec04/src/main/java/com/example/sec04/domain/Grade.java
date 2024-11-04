@@ -6,7 +6,7 @@ public interface Grade {
 
     int getId();
 
-    void setId();
+    void setId(int id);
 
     int getStudentId();
 

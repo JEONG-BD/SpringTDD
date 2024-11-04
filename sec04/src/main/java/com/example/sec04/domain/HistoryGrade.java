@@ -31,7 +31,7 @@ public class HistoryGrade implements Grade{
         return 0;
     }
     @Override
-    public void setId() {
+    public void setId(int id) {
         this.id = id;
     }
 

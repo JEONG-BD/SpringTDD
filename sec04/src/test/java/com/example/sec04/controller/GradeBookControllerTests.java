@@ -149,18 +149,6 @@ public class GradeBookControllerTests {
 
         //then
     }
-    @Test
-    public void createGradeServiceTest() throws Exception{
-        //given
-
-        Assertions.assertTrue(studentAndGradeService.createGrade(80.50, 1, "math"));
-
-        Iterable<MathGrade> mathGrades = mathGradesDao.findGradeByStudentId(1);
-        //whenb
-        Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
-
-        //then
-    }
 
     @AfterEach
     public void afterEach(){

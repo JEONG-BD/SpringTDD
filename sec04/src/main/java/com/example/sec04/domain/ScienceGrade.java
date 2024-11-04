@@ -30,7 +30,7 @@ public class ScienceGrade implements Grade{
         return id;
     }
     @Override
-    public void setId() {
+    public void setId(int id) {
         this.id = id;
     }
 
