@@ -2,7 +2,9 @@ package com.example.sec04;
 
 import com.example.sec04.domain.CollegeStudent;
 import com.example.sec04.domain.MathGrade;
+import com.example.sec04.domain.ScienceGrade;
 import com.example.sec04.repository.MathGradesDao;
+import com.example.sec04.repository.ScienceGradesDao;
 import com.example.sec04.repository.StudentDao;
 import com.example.sec04.service.StudentAndGradeService;
 import org.junit.jupiter.api.AfterEach;
@@ -34,6 +36,10 @@ public class StudentAndGradeServiceTests {
 
     @Autowired
     private MathGradesDao mathGradesDao;
+
+
+    @Autowired
+    private ScienceGradesDao scienceGradesDao;
 
     @BeforeEach
     public void setUpDatabase(){
@@ -98,12 +104,14 @@ public class StudentAndGradeServiceTests {
         //given
 
         Assertions.assertTrue(studentService.createGrade(80.50, 1, "math"));
+        Assertions.assertTrue(studentService.createGrade(80.50, 1, "science"));
 
         Iterable<MathGrade> mathGrades = mathGradesDao.findGradeByStudentId(1);
+        Iterable<ScienceGrade> scienceGrades = scienceGradesDao.findGradeByStudentId(1);
 
         //when
         Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
-
+        Assertions.assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
         //then
     }
 

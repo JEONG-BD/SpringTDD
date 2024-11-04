@@ -2,7 +2,9 @@ package com.example.sec04.service;
 
 import com.example.sec04.domain.CollegeStudent;
 import com.example.sec04.domain.MathGrade;
+import com.example.sec04.domain.ScienceGrade;
 import com.example.sec04.repository.MathGradesDao;
+import com.example.sec04.repository.ScienceGradesDao;
 import com.example.sec04.repository.StudentDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,8 +25,19 @@ public class StudentAndGradeService {
     @Qualifier("mathGrades")
     private MathGrade mathGrade;
 
+
+    @Autowired
+    @Qualifier("scienceGrades")
+    private ScienceGrade scienceGrade;
+
     @Autowired
     private MathGradesDao mathGradesDao;
+
+
+
+    @Autowired
+    private ScienceGradesDao scienceGradesDao;
+
 
     public void createStudent(String firstName, String lastName, String emailAddress){
         CollegeStudent student = new CollegeStudent(firstName, lastName, emailAddress);
@@ -59,17 +72,21 @@ public class StudentAndGradeService {
         }
 
         if(grade >= 0 && grade <=100){
-            System.out.println("test");
-            System.out.println("test");
-            System.out.println("test");
-            System.out.println("test");
 
-            if (gradeTye.equals("math")){
+            if (gradeTye.equals("math")) {
 
                 mathGrade.setId(0);
                 mathGrade.setGrade(grade);
                 mathGrade.setStudentId(studentId);
                 mathGradesDao.save(mathGrade);
+                return true;
+            }
+
+            if (gradeTye.equals("science")) {
+                scienceGrade.setId(0);
+                scienceGrade.setGrade(grade);
+                scienceGrade.setStudentId(studentId);
+                scienceGradesDao.save(scienceGrade);
                 return true;
             }
         }
