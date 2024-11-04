@@ -123,6 +123,18 @@ public class StudentAndGradeServiceTests {
         //then
     }
 
+    @Test
+    public void createGradeServiceReturnFalseTest() throws Exception{
+        //given
+        Assertions.assertFalse(studentService.createGrade(105, 1, "math"));
+        Assertions.assertFalse(studentService.createGrade(-5, 1, " math"));
+        Assertions.assertFalse(studentService.createGrade(80.50, 2, " math"));
+        Assertions.assertFalse(studentService.createGrade(80.50, 1b, " literature"));
+
+        //when
+
+        //then
+    }
     @AfterEach
     public void setUpAfterTransaction(){
         jdbcTemplate.execute("DELETE FROM student");
