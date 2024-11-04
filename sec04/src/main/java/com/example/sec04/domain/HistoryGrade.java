@@ -12,7 +12,7 @@ public class HistoryGrade implements Grade{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name ="studnet_id")
+    @Column(name ="student_id")
     private int studentId;
 
     @Column(name= "grade")

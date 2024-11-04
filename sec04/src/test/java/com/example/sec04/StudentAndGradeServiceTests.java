@@ -50,6 +50,13 @@ public class StudentAndGradeServiceTests {
     public void setUpDatabase(){
         jdbcTemplate.execute("insert into student(id, firstName, lastName, emailAddress) " +
                 "values (1, 'Eric', 'Roby', 'eric.roby@test.com')" );
+
+        jdbcTemplate.execute("insert into math_grade(id, student_id, grade) " +
+                "values (1, 1, 100.0)");
+        jdbcTemplate.execute("insert into history_grade(id, student_id, grade) " +
+                "values (1, 1, 100.0)");
+        jdbcTemplate.execute("insert into science_grade(id, student_id, grade) " +
+                "values (1, 1, 100.0)");
     }
 
     @Test
@@ -129,14 +136,18 @@ public class StudentAndGradeServiceTests {
         Assertions.assertFalse(studentService.createGrade(105, 1, "math"));
         Assertions.assertFalse(studentService.createGrade(-5, 1, " math"));
         Assertions.assertFalse(studentService.createGrade(80.50, 2, " math"));
-        Assertions.assertFalse(studentService.createGrade(80.50, 1b, " literature"));
+        Assertions.assertFalse(studentService.createGrade(80.50, 1, " literature"));
 
         //when
 
         //then
     }
     @AfterEach
-    public void setUpAfterTransaction(){
+    public void setUpAfterTransaction() {
         jdbcTemplate.execute("DELETE FROM student");
+        jdbcTemplate.execute("DELETE FROM math_grade");
+        jdbcTemplate.execute("DELETE FROM history_grade");
+        jdbcTemplate.execute("DELETE FROM science_grade");
+
     }
 }
