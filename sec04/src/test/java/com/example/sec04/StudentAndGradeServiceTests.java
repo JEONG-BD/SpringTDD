@@ -87,12 +87,29 @@ public class StudentAndGradeServiceTests {
     public void deleteStudentService() throws Exception{
         //given
         Optional<CollegeStudent> deletedCollegeStudent = studentDao.findById(1);
+        Optional<MathGrade> deleteMathGrade = mathGradesDao.findById(1);
+        Optional<HistoryGrade> deleteHistoryGrade = historyGradesDao.findById(1);
+        Optional<ScienceGrade> deleteScienceGrade = scienceGradesDao.findById(1);
+
         Assertions.assertTrue(deletedCollegeStudent.isPresent(), "Return True");
+        Assertions.assertTrue(deleteMathGrade.isPresent(), "Return Math");
+        Assertions.assertTrue(deleteHistoryGrade.isPresent(), "Return History");
+        Assertions.assertTrue(deleteScienceGrade.isPresent(), "Return Science");
+
         //when
         studentService.deleteStudent(1);
+
         deletedCollegeStudent = studentDao.findById(1);
+        deleteMathGrade = mathGradesDao.findById(1);
+        deleteHistoryGrade = historyGradesDao.findById(1);
+        deleteScienceGrade = scienceGradesDao.findById(1);
+
         //then
         Assertions.assertFalse(deletedCollegeStudent.isPresent(), "Return False");
+        Assertions.assertFalse(deleteMathGrade.isPresent());
+        Assertions.assertFalse(deleteHistoryGrade.isPresent());
+        Assertions.assertFalse(deleteScienceGrade.isPresent());
+
     }
 
     @Sql("/insertData.sql")
