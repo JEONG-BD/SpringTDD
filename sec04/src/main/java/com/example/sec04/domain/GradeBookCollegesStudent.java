@@ -10,7 +10,7 @@ public class GradeBookCollegesStudent extends CollegeStudent {
         super(firstName, lastName, emailAddress);
     }
 
-    public GradeBookCollegesStudent(String firstName, String lastName, String emailAddress, StudentGrades studentGrades) {
+    public GradeBookCollegesStudent(int id, String firstName, String lastName, String emailAddress, StudentGrades studentGrades) {
         super(firstName, lastName, emailAddress);
         this.studentGrades = studentGrades;
         this.id = id;

@@ -1,7 +1,9 @@
 package com.example.sec04.domain;
 
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Component
 @NoArgsConstructor
+@Getter
+@Setter
 public class StudentGrades {
 
 

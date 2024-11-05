@@ -1,9 +1,6 @@
 package com.example.sec04;
 
-import com.example.sec04.domain.CollegeStudent;
-import com.example.sec04.domain.HistoryGrade;
-import com.example.sec04.domain.MathGrade;
-import com.example.sec04.domain.ScienceGrade;
+import com.example.sec04.domain.*;
 import com.example.sec04.repository.HistoryGradesDao;
 import com.example.sec04.repository.MathGradesDao;
 import com.example.sec04.repository.ScienceGradesDao;
@@ -24,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @TestPropertySource("/application.properties")
@@ -68,7 +67,7 @@ public class StudentAndGradeServiceTests {
         //when
         CollegeStudent student = studentDao.findByEmailAddress("chad.darby@test.com");
         //then
-        Assertions.assertEquals("chad.darby@test.com", student.getEmailAddress(), "find by email");
+        assertEquals("chad.darby@test.com", student.getEmailAddress(), "find by email");
 
     }
 
@@ -79,8 +78,8 @@ public class StudentAndGradeServiceTests {
         //when
 
         //then
-        Assertions.assertTrue(studentService.checkIfStudentIsNull(1));
-        Assertions.assertFalse(studentService.checkIfStudentIsNull(0));
+        assertTrue(studentService.checkIfStudentIsNull(1));
+        assertFalse(studentService.checkIfStudentIsNull(0));
     }
 
     @Test
@@ -91,10 +90,10 @@ public class StudentAndGradeServiceTests {
         Optional<HistoryGrade> deleteHistoryGrade = historyGradesDao.findById(1);
         Optional<ScienceGrade> deleteScienceGrade = scienceGradesDao.findById(1);
 
-        Assertions.assertTrue(deletedCollegeStudent.isPresent(), "Return True");
-        Assertions.assertTrue(deleteMathGrade.isPresent(), "Return Math");
-        Assertions.assertTrue(deleteHistoryGrade.isPresent(), "Return History");
-        Assertions.assertTrue(deleteScienceGrade.isPresent(), "Return Science");
+        assertTrue(deletedCollegeStudent.isPresent(), "Return True");
+        assertTrue(deleteMathGrade.isPresent(), "Return Math");
+        assertTrue(deleteHistoryGrade.isPresent(), "Return History");
+        assertTrue(deleteScienceGrade.isPresent(), "Return Science");
 
         //when
         studentService.deleteStudent(1);
@@ -105,10 +104,10 @@ public class StudentAndGradeServiceTests {
         deleteScienceGrade = scienceGradesDao.findById(1);
 
         //then
-        Assertions.assertFalse(deletedCollegeStudent.isPresent(), "Return False");
-        Assertions.assertFalse(deleteMathGrade.isPresent());
-        Assertions.assertFalse(deleteHistoryGrade.isPresent());
-        Assertions.assertFalse(deleteScienceGrade.isPresent());
+        assertFalse(deletedCollegeStudent.isPresent(), "Return False");
+        assertFalse(deleteMathGrade.isPresent());
+        assertFalse(deleteHistoryGrade.isPresent());
+        assertFalse(deleteScienceGrade.isPresent());
 
     }
 
@@ -125,16 +124,16 @@ public class StudentAndGradeServiceTests {
             collegeStudents.add(collegeStudent);
         }
 
-        Assertions.assertEquals(5, collegeStudents.size());
+        assertEquals(5, collegeStudents.size());
     }
 
 
     @Test
     public void createGradeServiceTest() throws Exception{
         //given
-        Assertions.assertTrue(studentService.createGrade(80.50, 1, "math"));
-        Assertions.assertTrue(studentService.createGrade(80.50, 1, "science"));
-        Assertions.assertTrue(studentService.createGrade(80.50, 1, "history"));
+        assertTrue(studentService.createGrade(80.50, 1, "math"));
+        assertTrue(studentService.createGrade(80.50, 1, "science"));
+        assertTrue(studentService.createGrade(80.50, 1, "history"));
 
         Iterable<MathGrade> mathGrades = mathGradesDao.findGradeByStudentId(1);
         Iterable<ScienceGrade> scienceGrades = scienceGradesDao.findGradeByStudentId(1);
@@ -142,11 +141,11 @@ public class StudentAndGradeServiceTests {
 
         //when
         //Assertions.assertTrue(mathGrades.iterator().hasNext(), "Student has math grades");
-        Assertions.assertTrue(((Collection<MathGrade>)mathGrades).size()==2, "Student has math grades" );
+        assertTrue(((Collection<MathGrade>)mathGrades).size()==2, "Student has math grades" );
         //Assertions.assertTrue(scienceGrades.iterator().hasNext(), "Student has science grades");
-        Assertions.assertTrue(((Collection<ScienceGrade>)scienceGrades).size()==2, "Student has science grades");
+        assertTrue(((Collection<ScienceGrade>)scienceGrades).size()==2, "Student has science grades");
         //Assertions.assertTrue(historyGrades.iterator().hasNext(), "Student has history grades");
-        Assertions.assertTrue(((Collection<HistoryGrade>)historyGrades).size()==2, "Student has history grades" );
+        assertTrue(((Collection<HistoryGrade>)historyGrades).size()==2, "Student has history grades" );
 
         //then
     }
@@ -154,10 +153,10 @@ public class StudentAndGradeServiceTests {
     @Test
     public void createGradeServiceReturnFalseTest() throws Exception{
         //given
-        Assertions.assertFalse(studentService.createGrade(105, 1, "math"));
-        Assertions.assertFalse(studentService.createGrade(-5, 1, " math"));
-        Assertions.assertFalse(studentService.createGrade(80.50, 2, " math"));
-        Assertions.assertFalse(studentService.createGrade(80.50, 1, " literature"));
+        assertFalse(studentService.createGrade(105, 1, "math"));
+        assertFalse(studentService.createGrade(-5, 1, " math"));
+        assertFalse(studentService.createGrade(80.50, 2, " math"));
+        assertFalse(studentService.createGrade(80.50, 1, " literature"));
 
         //when
 
@@ -167,13 +166,13 @@ public class StudentAndGradeServiceTests {
     @Test
     public void deleteGradeServiceTest() throws Exception{
         //given
-        Assertions.assertEquals(1, studentService.deleteGrade(1, "math"),
+        assertEquals(1, studentService.deleteGrade(1, "math"),
                 "Return student id after delete");
         //when
-        Assertions.assertEquals(1, studentService.deleteGrade(1, "science"),
+        assertEquals(1, studentService.deleteGrade(1, "science"),
                 "Return student id after delete");
 
-        Assertions.assertEquals(1, studentService.deleteGrade(1, "history"),
+        assertEquals(1, studentService.deleteGrade(1, "history"),
                 "Return student id after delete");
         //then
     }
@@ -181,9 +180,26 @@ public class StudentAndGradeServiceTests {
     @Test
     public void deleteGradeServiceReturnFailTest() throws Exception{
         //given
-        Assertions.assertEquals(0, studentService.deleteGrade(0, "science"), "No Student should have 0 id");
-        Assertions.assertEquals(0, studentService.deleteGrade(0, "literature"),"No Student should have 0 id");
+        assertEquals(0, studentService.deleteGrade(0, "science"), "No Student should have 0 id");
+        assertEquals(0, studentService.deleteGrade(0, "literature"),"No Student should have 0 id");
         //when
+
+        //then
+    }
+
+    @Test
+    public void studentInformation() throws Exception{
+        //given
+        GradeBookCollegesStudent gradeBookCollegesStudent = studentService.studentInformation(1);
+        //when
+        assertNotNull(gradeBookCollegesStudent);
+        assertEquals(1, gradeBookCollegesStudent.getId());
+        assertEquals("Eric", gradeBookCollegesStudent.getFirstName());
+        assertEquals("Roby", gradeBookCollegesStudent.getLastName());
+        assertEquals("eric.roby@test.com", gradeBookCollegesStudent.getEmailAddress());
+        assertTrue(gradeBookCollegesStudent.getStudentGrades().getMathGradeResults().size() == 1 );
+        assertTrue(gradeBookCollegesStudent.getStudentGrades().getHistoryGradeResults().size() == 1 );
+        assertTrue(gradeBookCollegesStudent.getStudentGrades().getScienceGradeResults().size() == 1 );
 
         //then
     }
