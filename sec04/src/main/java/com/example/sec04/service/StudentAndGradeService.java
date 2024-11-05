@@ -157,6 +157,11 @@ public class StudentAndGradeService {
 
 
     public GradeBookCollegesStudent studentInformation(int id) {
+
+        if(!checkIfStudentIsNull(id)){
+            return null ;
+        }
+
         Optional<CollegeStudent> student = studentDao.findById(id);
         Iterable<MathGrade> mathGrades = mathGradesDao.findGradeByStudentId(id);
         Iterable<ScienceGrade> scienceGrades = scienceGradesDao.findGradeByStudentId(id);

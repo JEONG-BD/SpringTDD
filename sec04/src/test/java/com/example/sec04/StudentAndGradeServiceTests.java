@@ -204,6 +204,17 @@ public class StudentAndGradeServiceTests {
         //then
     }
 
+    @Test
+    public void studentInformationServiceReturnNull() throws Exception{
+        //given
+        GradeBookCollegesStudent gradeBookCollegesStudent = studentService.studentInformation(0);
+
+        assertNull(gradeBookCollegesStudent);
+        //when
+
+        //then
+    }
+
     @AfterEach
     public void setUpAfterTransaction() {
         jdbcTemplate.execute("DELETE FROM student");
