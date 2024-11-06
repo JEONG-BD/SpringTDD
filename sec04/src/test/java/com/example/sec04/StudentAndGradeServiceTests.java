@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.TestPropertySource;
@@ -45,10 +46,34 @@ public class StudentAndGradeServiceTests {
     @Autowired
     private HistoryGradesDao historyGradesDao;
 
+    @Value("${sql.script.create.student}")
+    private String sqlAddStudent;
+
+    @Value("${sql.script.create.math.grade}")
+    private String sqlAddMathGrade;
+
+    @Value("${sql.script.create.history.grade}")
+    private String sqlAddHistoryGrade;
+
+    @Value("${sql.script.create.science.grade}")
+    private String sqlAddScienceGrade;
+
+    @Value("${sql.script.delete.student}")
+    private String sqlDeleteStudent;
+
+    @Value("${sql.script.delete.math.grade}")
+    private String sqlDeleteMathGrade;
+
+    @Value("${sql.script.delete.history.grade}")
+    private String sqlDeleteHistoryGrade;
+
+    @Value("${sql.script.delete.science.grade}")
+    private String sqlDeleteScienceGrade;
+
 
     @BeforeEach
     public void setUpDatabase(){
-        jdbcTemplate.execute("insert into student(id, firstName, lastName, emailAddress) " +
+   /*     jdbcTemplate.execute("insert into student(id, firstName, lastName, emailAddress) " +
                 "values (1, 'Eric', 'Roby', 'eric.roby@test.com')" );
 
         jdbcTemplate.execute("insert into math_grade(id, student_id, grade) " +
@@ -57,6 +82,12 @@ public class StudentAndGradeServiceTests {
                 "values (1, 1, 100.0)");
         jdbcTemplate.execute("insert into science_grade(id, student_id, grade) " +
                 "values (1, 1, 100.0)");
+    */
+        jdbcTemplate.execute(sqlAddStudent);
+        jdbcTemplate.execute(sqlAddMathGrade);
+        jdbcTemplate.execute(sqlAddScienceGrade);
+        jdbcTemplate.execute(sqlAddHistoryGrade);
+
     }
 
     @Test
@@ -217,10 +248,16 @@ public class StudentAndGradeServiceTests {
 
     @AfterEach
     public void setUpAfterTransaction() {
+        /*
         jdbcTemplate.execute("DELETE FROM student");
         jdbcTemplate.execute("DELETE FROM math_grade");
         jdbcTemplate.execute("DELETE FROM history_grade");
         jdbcTemplate.execute("DELETE FROM science_grade");
+        */
+        jdbcTemplate.execute(sqlDeleteStudent);
+        jdbcTemplate.execute(sqlDeleteMathGrade);
+        jdbcTemplate.execute(sqlDeleteHistoryGrade);
+        jdbcTemplate.execute(sqlDeleteScienceGrade);
 
     }
 }
