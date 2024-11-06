@@ -9,6 +9,7 @@ import com.example.sec04.service.StudentAndGradeService;
 import org.junit.jupiter.api.*;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -53,6 +54,30 @@ public class GradeBookControllerTests {
     @Autowired
     private MathGradesDao mathGradesDao;
 
+    @Value("${sql.script.create.student}")
+    private String sqlAddStudent;
+
+    @Value("${sql.script.create.math.grade}")
+    private String sqlAddMathGrade;
+
+    @Value("${sql.script.create.history.grade}")
+    private String sqlAddHistoryGrade;
+
+    @Value("${sql.script.create.science.grade}")
+    private String sqlAddScienceGrade;
+
+    @Value("${sql.script.delete.student}")
+    private String sqlDeleteStudent;
+
+    @Value("${sql.script.delete.math.grade}")
+    private String sqlDeleteMathGrade;
+
+    @Value("${sql.script.delete.history.grade}")
+    private String sqlDeleteHistoryGrade;
+
+    @Value("${sql.script.delete.science.grade}")
+    private String sqlDeleteScienceGrade;
+
     @BeforeAll
     public static void setUp(){
         request = new MockHttpServletRequest();
@@ -64,8 +89,13 @@ public class GradeBookControllerTests {
 
     @BeforeEach
     public void beforeEach(){
-        jdbcTemplate.execute("insert into student(id, firstName, lastName, emailAddress) " +
-                "values (1, 'Eric', 'Roby', 'eric.roby@test.com')" );
+//        jdbcTemplate.execute("insert into student(id, firstName, lastName, emailAddress) " +
+//                "values (1, 'Eric', 'Roby', 'eric.roby@test.com')" );
+        jdbcTemplate.execute(sqlAddStudent);
+        jdbcTemplate.execute(sqlAddMathGrade);
+        jdbcTemplate.execute(sqlAddScienceGrade);
+        jdbcTemplate.execute(sqlAddHistoryGrade);
+
     }
 
     @Test
@@ -152,6 +182,12 @@ public class GradeBookControllerTests {
 
     @AfterEach
     public void afterEach(){
-        jdbcTemplate.execute("DELETE FROM student");
+
+        //jdbcTemplate.execute("DELETE FROM student");
+        jdbcTemplate.execute(sqlDeleteStudent);
+        jdbcTemplate.execute(sqlDeleteMathGrade);
+        jdbcTemplate.execute(sqlDeleteHistoryGrade);
+        jdbcTemplate.execute(sqlDeleteScienceGrade);
+
     }
 }
