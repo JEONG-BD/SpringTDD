@@ -1,6 +1,7 @@
 package com.example.sec04.controller;
 import com.example.sec04.domain.CollegeStudent;
 import com.example.sec04.domain.GradeBook;
+import com.example.sec04.domain.GradeBookCollegesStudent;
 import com.example.sec04.service.StudentAndGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -25,6 +26,39 @@ public class GradeBookController {
 
     @GetMapping("/studentInformation/{id}")
     public String studentInformation(@PathVariable int id, Model model){
+
+        if(!studentAndGradeService.checkIfStudentIsNull(id)){
+            return "error";
+        }
+
+        GradeBookCollegesStudent studentEntity = studentAndGradeService.studentInformation(id);
+
+        model.addAttribute("student", studentEntity);
+
+        if (studentEntity.getStudentGrades().getMathGradeResults().size() > 0) {
+            model.addAttribute("mathAverage", studentEntity.getStudentGrades().findGradePointAverage(
+                    studentEntity.getStudentGrades().getMathGradeResults()
+            ));
+        } else {
+            model.addAttribute("mathAverage", "N/A");
+        }
+
+        if (studentEntity.getStudentGrades().getScienceGradeResults().size() > 0) {
+            model.addAttribute("scienceAverage", studentEntity.getStudentGrades().findGradePointAverage(
+                    studentEntity.getStudentGrades().getScienceGradeResults()
+            ));
+        } else {
+            model.addAttribute("scienceAverage", "N/A");
+        }
+
+        if (studentEntity.getStudentGrades().getHistoryGradeResults().size() > 0) {
+            model.addAttribute("historyAverage", studentEntity.getStudentGrades().findGradePointAverage(
+                    studentEntity.getStudentGrades().getHistoryGradeResults()
+            ));
+        } else {
+            model.addAttribute("scienceAverage", "N/A");
+        }
+
         return "studentInformation";
     }
 

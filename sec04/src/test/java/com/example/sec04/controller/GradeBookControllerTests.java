@@ -180,6 +180,35 @@ public class GradeBookControllerTests {
         //then
     }
 
+    @Test
+    public void studentInformationHttpRequest() throws Exception{
+        //given
+
+        Assertions.assertTrue(studentDao.findById(1).isPresent());
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/studentInformation/{id}", 1))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "studentInformation");
+        //when
+
+        //then
+    }
+
+    @Test
+    public void studentInformationHttpStudentDoesNotExistRequest() throws Exception{
+        //given
+        Assertions.assertFalse(studentDao.findById(0).isPresent());
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/studentInformation/{id}", 0))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+        //when
+
+        //then
+    }
     @AfterEach
     public void afterEach(){
 
