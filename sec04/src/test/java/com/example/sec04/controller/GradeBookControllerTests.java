@@ -232,7 +232,7 @@ public class GradeBookControllerTests {
 
         ModelAndViewAssert.assertViewName(mav, "studentInformation");
 
-        student = studentAndGradeService.studentInformation(1);
+        student = studentService.studentInformation(1);
 
         Assertions.assertEquals(2, student.getStudentGrades().getMathGradeResults().size());
     }
