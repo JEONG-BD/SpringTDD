@@ -31,7 +31,7 @@ public class GradeBookController {
             return "error";
         }
 
-        GradeBookCollegesStudent studentEntity = studentAndGradeService.studentInformation(id);
+        /*GradeBookCollegesStudent studentEntity = studentAndGradeService.studentInformation(id);
 
         model.addAttribute("student", studentEntity);
 
@@ -57,8 +57,9 @@ public class GradeBookController {
             ));
         } else {
             model.addAttribute("historyAverage", "N/A");
-        }
+        }*/
 
+        studentAndGradeService.configureStudentInformation(id, model);
         return "studentInformation";
     }
 
@@ -106,6 +107,7 @@ public class GradeBookController {
         if(!success){
             return "error";
         }
+        /*
         GradeBookCollegesStudent studentEntity =  studentAndGradeService.studentInformation(studentId);
         model.addAttribute("student", studentEntity);
 
@@ -132,7 +134,10 @@ public class GradeBookController {
         } else {
             model.addAttribute("historyAverage", "N/A");
         }
-
+        */
+        studentAndGradeService.configureStudentInformation(studentId, model);
         return "studentInformation";
     }
+
+
 }
