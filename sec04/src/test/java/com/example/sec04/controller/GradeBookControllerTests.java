@@ -46,6 +46,10 @@ public class GradeBookControllerTests {
     private StudentAndGradeService studentAndGradeService;
 
     @Autowired
+    private StudentAndGradeService studentService;
+
+
+    @Autowired
     private static MockHttpServletRequest request;
 
     @Autowired
@@ -209,6 +213,31 @@ public class GradeBookControllerTests {
 
         //then
     }
+    @Test
+    public void createValidGradeHttpRequestTest() throws Exception{
+        //given
+        Assertions.assertTrue(studentDao.findById(1).isPresent());
+
+        GradeBookCollegesStudent student = studentService.studentInformation(1);
+
+        Assertions.assertEquals(1, student.getStudentGrades().getMathGradeResults().size());
+        //then
+        MvcResult mvcResult = this.mockMvc.perform(post("/grades")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("grade", "85.00")
+                .param("gradeType", "math")
+                .param("studentId", "1")).andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "studentInformation");
+
+        student = studentAndGradeService.studentInformation(1);
+
+        Assertions.assertEquals(2, student.getStudentGrades().getMathGradeResults().size());
+    }
+    
+    
     @AfterEach
     public void afterEach(){
 
