@@ -313,6 +313,18 @@ public class GradeBookControllerTests {
 
         //then
     }
+    @Test
+    public void deleteInvalidGradeSubjectHttpRequestTest() throws Exception{
+        //given
+        MvcResult mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/grades/{id}/{gradeType}", 1, "literature"))
+                .andExpect(status().isOk()).andReturn();
+        //when
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "error");
+        //then
+    }
     
     @AfterEach
     public void afterEach(){
