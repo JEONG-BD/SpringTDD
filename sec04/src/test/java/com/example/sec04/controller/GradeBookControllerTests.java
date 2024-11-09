@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -253,7 +254,65 @@ public class GradeBookControllerTests {
 
         //then
     }
-    
+
+    @Test
+    public void cereateNonValidGradeHttpRequestGradeTypeDoesNotExistEmptyResponse() throws Exception{
+        //given
+        Assertions.assertTrue(studentDao.findById(1).isPresent());
+
+        MvcResult mvcResult = this.mockMvc.perform(post("/grades")
+                .contentType(MediaType.APPLICATION_JSON)
+                .param("grade", "85.00")
+                .param("gradeType", "literature")
+                .param("studentId", "1"))
+                .andExpect(status().isOk()).andReturn();
+        ModelAndView mav = mvcResult.getModelAndView();
+        ModelAndViewAssert.assertViewName(mav, "error");
+        //when
+
+        //then
+    }
+
+    @Test
+    public void deleteAValidGradeHttpRequestTest() throws Exception{
+        //given
+        Optional<MathGrade> mathGrade = mathGradesDao.findById(1);
+        //when
+        Assertions.assertTrue(mathGrade.isPresent());
+
+        //then
+        MvcResult mvcResult = this.mockMvc.perform(
+                MockMvcRequestBuilders.get("/grades/{id}/{gradeType}", 1 ,"math"))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "studentInformation");
+
+        mathGrade = mathGradesDao.findById(2);
+
+        Assertions.assertFalse(mathGrade.isPresent());
+    }
+
+
+    @Test
+    public void deleteInvalidGradeHttpRequestTest() throws Exception{
+        //given
+        Optional<MathGrade> mathGrade = mathGradesDao.findById(2);
+
+        Assertions.assertFalse(mathGrade.isPresent());
+        //when
+        MvcResult mvcResult = this.mockMvc.perform(
+                        MockMvcRequestBuilders.get("/grades/{id}/{gradeType}", 2,"math"))
+                .andExpect(status().isOk()).andReturn();
+
+        ModelAndView mav = mvcResult.getModelAndView();
+
+        ModelAndViewAssert.assertViewName(mav, "error");
+
+
+        //then
+    }
     
     @AfterEach
     public void afterEach(){
