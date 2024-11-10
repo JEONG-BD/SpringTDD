@@ -81,6 +81,54 @@ public class StudentAndGradeService {
         return collegeStudents;
     }
 
+    public GradeBook getGradeBookV2(){
+        Iterable<CollegeStudent> collegeStudents = studentDao.findAll();
+        Iterable<MathGrade> mathGrades = mathGradesDao.findAll();
+        Iterable<ScienceGrade> scienceGrades = scienceGradesDao.findAll();
+        Iterable<HistoryGrade> historyGrades = historyGradesDao.findAll();
+
+        GradeBook gradeBook = new GradeBook();
+
+        for (CollegeStudent collegeStudent : collegeStudents){
+            List<Grade> mathGradesPerStudent = new ArrayList<>();
+            List<Grade> scienceGradesPerStudent = new ArrayList<>();
+            List<Grade> historyGradesPerStudent = new ArrayList<>();
+
+
+            for (MathGrade grade : mathGrades) {
+                if(grade.getStudentId() == collegeStudent.getId()){
+                    mathGradesPerStudent.add(grade);
+                }
+            }
+
+            for (HistoryGrade grade : historyGrades) {
+                if(grade.getStudentId() == collegeStudent.getId()){
+                    historyGradesPerStudent.add(grade);
+                }
+            }
+
+            for (ScienceGrade grade : scienceGrades) {
+                if(grade.getStudentId() == collegeStudent.getId()){
+                    scienceGradesPerStudent.add(grade);
+                }
+            }
+            studentGrades.setMathGradeResults(mathGradesPerStudent);
+            studentGrades.setHistoryGradeResults(historyGradesPerStudent);
+            studentGrades.setScienceGradeResults(scienceGradesPerStudent);
+
+            GradeBookCollegesStudent gradeBookCollegesStudent = new GradeBookCollegesStudent(collegeStudent.getId(),
+                    collegeStudent.getFirstName(),
+                    collegeStudent.getLastName(),
+                    collegeStudent.getEmailAddress(), studentGrades);
+
+            gradeBook.getStudent().add(gradeBookCollegesStudent);
+        }
+
+        return gradeBook;
+
+
+    }
+
     public boolean createGrade(double grade, int studentId, String gradeTye){
 
         if(!checkIfStudentIsNull(studentId)){
