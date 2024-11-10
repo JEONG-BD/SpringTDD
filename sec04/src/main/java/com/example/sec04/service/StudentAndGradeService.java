@@ -187,6 +187,10 @@ public class StudentAndGradeService {
     public void configureStudentInformation(int id, Model model){
 
         GradeBookCollegesStudent studentEntity =  studentInformation(id);
+        System.out.println("studentEntity = " + studentEntity);
+        System.out.println("studentEntity = " + studentEntity);
+        System.out.println("studentEntity = " + studentEntity);
+
         model.addAttribute("student", studentEntity);
 
         if (studentEntity.getStudentGrades().getMathGradeResults().size() > 0) {
