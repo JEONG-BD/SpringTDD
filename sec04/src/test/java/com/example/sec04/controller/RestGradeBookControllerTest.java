@@ -28,6 +28,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
@@ -104,7 +105,7 @@ public class RestGradeBookControllerTest {
         request = new MockHttpServletRequest();
         request.setParameter("firstname", "Chad");
         request.setParameter("lastname", "Darby");
-        request.setParameter("emailAddress", "chad.darby@luv2code_school.com");
+        request.setParameter("emailAddress", "chad.darby@luv2code_school3.com");
     }
 
     @BeforeEach
@@ -129,6 +130,28 @@ public class RestGradeBookControllerTest {
                 .andExpect(content().contentType(APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$", hasSize(3)));
 
+    }
+
+    @Test
+    public void createStudentHttpRequestTest() throws Exception{
+        //given
+        student.setFirstName("Chad");
+        student.setLastName("Darby");
+        student.setEmailAddress("1234@luv2code_school4.com");
+
+        mockMvc.perform(post("/api")
+                .contentType(APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(student)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)));
+
+        CollegeStudent verifyStudent = studentDao.findByEmailAddress("1234@luv2Code_school4.com");
+        assertNotNull(verifyStudent, "Student should be valid");
+
+
+        //when
+
+        //then
     }
 
     @AfterEach
