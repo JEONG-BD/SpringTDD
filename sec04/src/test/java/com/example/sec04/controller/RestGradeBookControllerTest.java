@@ -154,6 +154,24 @@ public class RestGradeBookControllerTest {
         //then
     }
 
+
+    @Test
+    public void deleteStudnetHttpRequestTest() throws Exception{
+        //given
+        assertTrue(studentDao.findById(1).isPresent());
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/student/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(0)));
+
+        assertFalse(studentDao.findById(1).isPresent());
+
+
+        //when
+
+        //then
+    }
+
     @AfterEach
     public void setupAfterTransaction() {
         jdbc.execute(sqlDeleteStudent);
