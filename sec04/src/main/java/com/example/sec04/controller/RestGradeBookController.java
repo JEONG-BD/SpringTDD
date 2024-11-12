@@ -125,7 +125,7 @@ public class RestGradeBookController {
     }
 
     @ExceptionHandler
-    public ResponseEntity<StudentOrGradeErrorResponse> handleException(StudentOrGradeErrorResponse exc){
+    public ResponseEntity<StudentOrGradeErrorResponse> handleException(StudentOrGradeNotFoundException exc){
         StudentOrGradeErrorResponse errorResponse = new StudentOrGradeErrorResponse();
 
         errorResponse.setStatus(HttpStatus.NOT_FOUND.value());

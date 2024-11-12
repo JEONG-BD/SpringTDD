@@ -25,7 +25,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
+import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -166,7 +166,18 @@ public class RestGradeBookControllerTest {
 
         assertFalse(studentDao.findById(1).isPresent());
 
+        //when
+        //then
+    }
 
+    @Test
+    public void deleteStudnetHttpRequestErrorPage() throws Exception{
+        //given
+        assertFalse(studentDao.findById(0).isPresent());
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/student/{id}", 0))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status", is(404)));
         //when
 
         //then
