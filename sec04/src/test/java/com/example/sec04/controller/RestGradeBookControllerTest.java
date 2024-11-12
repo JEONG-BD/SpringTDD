@@ -25,6 +25,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
+import java.util.Optional;
+
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
@@ -179,6 +182,25 @@ public class RestGradeBookControllerTest {
                 .andExpect(status().is4xxClientError())
                 .andExpect(jsonPath("$.status", is(404)))
                 .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
+        //when
+
+        //then
+    }
+
+    @Test
+    public void studentInformationHttpRequest() throws Exception{
+        //given
+        Optional<CollegeStudent> student = studentDao.findById(1);
+
+        assertTrue(student.isPresent());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/studentInformation/{id}", 1))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstName", is("Eric")))
+                .andExpect(jsonPath("$.lastName", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@test.com")));
         //when
 
         //then
