@@ -27,9 +27,29 @@ public class RestGradeBookController {
     public List<GradeBookCollegesStudent> getStudents() {
         //GradeBook gradeBook = studentService.getGradeBookV2();
         gradeBook = studentService.getGradeBookV2();
-
         return gradeBook.getStudent();
+
     }
+
+
+    @RequestMapping(value = "/apiV2", method = RequestMethod.GET)
+    public List<CollegeStudent> getStudents_V2() {
+        Iterable<CollegeStudent> collegeStudents = (Iterable<CollegeStudent>) studentService.getGradeBookV2();
+        System.out.println("collegeStudents = " + collegeStudents);
+        System.out.println("collegeStudents = " + collegeStudents);
+        System.out.println("collegeStudents = " + collegeStudents);
+
+
+        System.out.println("collegeStudents = " + collegeStudents);
+        for (CollegeStudent collegeStudent : collegeStudents) {
+            System.out.println("collegeStudent = " + collegeStudent);
+            System.out.println("collegeStudent = " + collegeStudent);
+            System.out.println("collegeStudent = " + collegeStudent);
+
+        }
+        return ((List<CollegeStudent>) collegeStudents);
+    }
+
 
     @GetMapping("/api/studentInformation/{id}")
     public GradeBookCollegesStudent studentInformation(@PathVariable int id) {

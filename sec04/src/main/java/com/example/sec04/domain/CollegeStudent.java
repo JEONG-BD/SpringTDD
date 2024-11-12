@@ -33,11 +33,11 @@ public class CollegeStudent implements Student{
 
     @Override
     public String studentInformation() {
-        return getFirstName() + " " + getLastName();
+        return getFullName() + " " + getEmailAddress();
     }
 
     @Override
     public String getFullName() {
-        return getFullName() + " " + getEmailAddress();
+        return getFirstName()+ " " + getLastName();
     }
 }

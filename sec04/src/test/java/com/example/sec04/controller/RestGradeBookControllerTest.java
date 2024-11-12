@@ -1,5 +1,6 @@
 package com.example.sec04.controller;
 
+import com.example.sec04.domain.CollegeStudent;
 import com.example.sec04.repository.HistoryGradesDao;
 import com.example.sec04.repository.MathGradesDao;
 import com.example.sec04.repository.ScienceGradesDao;
@@ -8,6 +9,7 @@ import com.example.sec04.service.StudentAndGradeService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,15 +24,17 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @TestPropertySource("/application-test.properties")
 @AutoConfigureMockMvc
 @SpringBootTest
 @Transactional
-class RestGradeBookControllerTest {
+public class RestGradeBookControllerTest {
 
     private static MockHttpServletRequest request;
 
@@ -38,10 +42,22 @@ class RestGradeBookControllerTest {
     private EntityManager entityManager;
 
     @Mock
-    StudentAndGradeService studentAndGradeService;
+    StudentAndGradeService studentCreateServiceMock;
 
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbc;
+
+    @Autowired
+    private StudentDao studentDao;
+
+    @Autowired
+    private MathGradesDao mathGradeDao;
+
+    @Autowired
+    private ScienceGradesDao scienceGradeDao;
+
+    @Autowired
+    private HistoryGradesDao historyGradeDao;
 
     @Autowired
     private StudentAndGradeService studentService;
@@ -52,19 +68,8 @@ class RestGradeBookControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
-
-
     @Autowired
-    private StudentDao studentDao;
-
-    @Autowired
-    private MathGradesDao mathGradesDao;
-
-    @Autowired
-    private ScienceGradesDao scienceGradesDao;
-
-    @Autowired
-    private HistoryGradesDao historyGradesDao;
+    private CollegeStudent student;
 
     @Value("${sql.script.create.student}")
     private String sqlAddStudent;
@@ -72,11 +77,11 @@ class RestGradeBookControllerTest {
     @Value("${sql.script.create.math.grade}")
     private String sqlAddMathGrade;
 
-    @Value("${sql.script.create.history.grade}")
-    private String sqlAddHistoryGrade;
-
     @Value("${sql.script.create.science.grade}")
     private String sqlAddScienceGrade;
+
+    @Value("${sql.script.create.history.grade}")
+    private String sqlAddHistoryGrade;
 
     @Value("${sql.script.delete.student}")
     private String sqlDeleteStudent;
@@ -84,56 +89,54 @@ class RestGradeBookControllerTest {
     @Value("${sql.script.delete.math.grade}")
     private String sqlDeleteMathGrade;
 
-    @Value("${sql.script.delete.history.grade}")
-    private String sqlDeleteHistoryGrade;
-
     @Value("${sql.script.delete.science.grade}")
     private String sqlDeleteScienceGrade;
 
+    @Value("${sql.script.delete.history.grade}")
+    private String sqlDeleteHistoryGrade;
+
     public static final MediaType APPLICATION_JSON_UTF8 = MediaType.APPLICATION_JSON;
 
+
     @BeforeAll
-    public static void setUp(){
+    public static void setup() {
+
         request = new MockHttpServletRequest();
-
-        request.setParameter("firstName", "Chad");
-        request.setParameter("lastName", "Darby");
-        request.setParameter("emailAddress", "chad.darby@test.com");
+        request.setParameter("firstname", "Chad");
+        request.setParameter("lastname", "Darby");
+        request.setParameter("emailAddress", "chad.darby@luv2code_school.com");
     }
-
-
 
     @BeforeEach
-    public void setUpDatabase(){
-
-        jdbcTemplate.execute(sqlAddStudent);
-        jdbcTemplate.execute(sqlAddMathGrade);
-        jdbcTemplate.execute(sqlAddScienceGrade);
-        jdbcTemplate.execute(sqlAddHistoryGrade);
-
+    public void setupDatabase() {
+        jdbc.execute(sqlAddStudent);
+        jdbc.execute(sqlAddMathGrade);
+        jdbc.execute(sqlAddScienceGrade);
+        jdbc.execute(sqlAddHistoryGrade);
     }
-
 
     @Test
-    public void placeholderTest() throws Exception{
-        //given
+    public void getStudentsHttpRequest() throws Exception {
 
-        //when
+        student.setFirstName("Chad");
+        student.setLastName("Darby");
+        student.setEmailAddress("chad.darby@luv2code_school.com");
+        entityManager.persist(student);
+        entityManager.flush();
 
-        //then
+        mockMvc.perform(MockMvcRequestBuilders.get("/api"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(3)));
+
     }
-
 
     @AfterEach
-    public void setUpAfterTransaction() {
-        jdbcTemplate.execute(sqlDeleteStudent);
-        jdbcTemplate.execute(sqlDeleteMathGrade);
-        jdbcTemplate.execute(sqlDeleteHistoryGrade);
-        jdbcTemplate.execute(sqlDeleteScienceGrade);
-
+    public void setupAfterTransaction() {
+        jdbc.execute(sqlDeleteStudent);
+        jdbc.execute(sqlDeleteMathGrade);
+        jdbc.execute(sqlDeleteScienceGrade);
+        jdbc.execute(sqlDeleteHistoryGrade);
     }
-
-
-
 
 }
