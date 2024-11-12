@@ -177,7 +177,8 @@ public class RestGradeBookControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/student/{id}", 0))
                 .andExpect(status().is4xxClientError())
-                .andExpect(jsonPath("$.status", is(404)));
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
         //when
 
         //then
