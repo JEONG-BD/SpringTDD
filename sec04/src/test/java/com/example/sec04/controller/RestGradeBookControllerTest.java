@@ -1,6 +1,7 @@
 package com.example.sec04.controller;
 
 import com.example.sec04.domain.CollegeStudent;
+import com.example.sec04.domain.MathGrade;
 import com.example.sec04.repository.HistoryGradesDao;
 import com.example.sec04.repository.MathGradesDao;
 import com.example.sec04.repository.ScienceGradesDao;
@@ -279,6 +280,59 @@ public class RestGradeBookControllerTest {
 
         //then
     }
+
+    @Test
+    public void deleteGradeHttpRequestTest() throws Exception{
+        //given
+
+        Optional<MathGrade> mathGrade = mathGradeDao.findById(1);
+        assertTrue(mathGrade.isPresent());
+        //when
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/grades/{id}/{gradeType}",
+                1, "math"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstName", is("Eric")))
+                .andExpect(jsonPath("$.lastName", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@test.com")))
+                .andExpect(jsonPath("$.studentGrades.mathGradeResults", hasSize(0)));;
+
+        //then
+    }
+
+
+    @Test
+    public void deleteInvalidGradeHttpRequestTest() throws Exception{
+        //given
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/grades/{id}/{gradeType}",
+                        2, "history"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
+
+        //then
+    }
+
+
+
+    @Test
+    public void deleteInvalidGradeTpeHttpRequestTest() throws Exception{
+        //given
+
+        mockMvc.perform(MockMvcRequestBuilders.delete("/api/grades/{id}/{gradeType}",
+                        1, "literature"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
+
+        //then
+    }
+
 
     @AfterEach
     public void setupAfterTransaction() {
