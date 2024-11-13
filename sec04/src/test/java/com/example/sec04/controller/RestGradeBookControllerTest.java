@@ -206,6 +206,42 @@ public class RestGradeBookControllerTest {
         //then
     }
 
+    @Test
+    public void studentInformationHttpRequestEmptyResponse() throws Exception{
+        //given
+        Optional<CollegeStudent> student = studentDao.findById(0);
+
+        assertFalse(student.isPresent());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/studentInformation/{id}", 0))
+                .andExpect(status().is4xxClientError())
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
+        //then
+    }
+
+
+    @Test
+    public void createGradeValidHttpRequestTest() throws Exception{
+        //given
+
+        this.mockMvc.perform(post("/api/grades")
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .param("grade", "85.00")
+                        .param("gradeType", "math")
+                        .param("studentId", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.firstName", is("Eric")))
+                .andExpect(jsonPath("$.lastName", is("Roby")))
+                .andExpect(jsonPath("$.emailAddress", is("eric.roby@test.com")))
+                .andExpect(jsonPath("$.studentGrades.mathGradeResults", hasSize(2)));
+        //when
+
+        //then
+    }
+
     @AfterEach
     public void setupAfterTransaction() {
         jdbc.execute(sqlDeleteStudent);
