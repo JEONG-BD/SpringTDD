@@ -261,6 +261,25 @@ public class RestGradeBookControllerTest {
     }
 
 
+    @Test
+    public void createInvalidGradeTypeHttpRequestTest() throws Exception{
+        //given
+        this.mockMvc.perform(post("/api/grades")
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .param("grade", "85.00")
+                        .param("gradeType", "literature")
+                        .param("studentId", "1"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
+
+
+        //when
+
+        //then
+    }
+
     @AfterEach
     public void setupAfterTransaction() {
         jdbc.execute(sqlDeleteStudent);
