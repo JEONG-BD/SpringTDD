@@ -222,6 +222,24 @@ public class RestGradeBookControllerTest {
 
 
     @Test
+    public void createGradeValidHttpRequestEmptyResponseTest() throws Exception{
+        //given
+
+        this.mockMvc.perform(post("/api/grades")
+                        .contentType(APPLICATION_JSON_UTF8)
+                        .param("grade", "85.00")
+                        .param("gradeType", "math")
+                        .param("studentId", "0"))
+                .andExpect(status().is4xxClientError())
+                .andExpect(content().contentType(APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.status", is(404)))
+                .andExpect(jsonPath("$.message", is("Student or Grade wor not found")));
+        //when
+
+        //then
+    }
+
+    @Test
     public void createGradeValidHttpRequestTest() throws Exception{
         //given
 
@@ -241,6 +259,7 @@ public class RestGradeBookControllerTest {
 
         //then
     }
+
 
     @AfterEach
     public void setupAfterTransaction() {
